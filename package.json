@@ -1,0 +1,22 @@
+{
+  "name": "@joachimhb/smart-home-mqtt-client",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "joachim.haecker-becker@arcor.de",
+  "license": "MIT",
+  "dependencies": {
+    "async-mqtt": "2.6.3",
+    "check-types-2": "11.4.0"
+  },
+  "devDependencies": {
+    "@joachimhb/bot": "git+https://github.com/joachimhb/bot.git#1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joachimhb/smart-home-common.git"
+  }
+}
