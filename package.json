@@ -13,7 +13,7 @@
     "check-types-2": "11.4.0"
   },
   "devDependencies": {
-    "@joachimhb/bot": "git+https://github.com/joachimhb/bot.git#1.0.0"
+    "@joachimhb/bot": "git+https://github.com/joachimhb/bot.git#0.1.0"
   },
   "repository": {
     "type": "git",
