@@ -65,6 +65,7 @@ const buttonOpen        = (room, shutter)  => `room/${room}/button/${shutter}/op
 const buttonClose       = (room, shutter)  => `room/${room}/button/${shutter}/close`;
 const buttonActive      = (room, shutter)  => `room/${room}/button/${shutter}/active`;
 
+const automationInit = raspi => `automation/${raspi}/init`;
 
 const topics = {
   shutterUp,
@@ -92,6 +93,8 @@ const topics = {
   
   temperatureStatus,
   humidityStatus,
+
+  automationInit,
 };
 
 
