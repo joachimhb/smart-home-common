@@ -56,8 +56,8 @@ const fanMinHumidityThreshold = (room, fan) => `room/${room}/fan/${fan}/minHumid
 const fanMaxHumidityThreshold = (room, fan) => `room/${room}/fan/${fan}/maxHumidityThreshold`;
 
 // general
-const lightStatus       = (room, light)    => `room/${room}/lights/${light}/status`;
-const windowStatus      = (room, window)   => `room/${room}/windows/${window}/status`;
+const lightStatus       = (room, light)    => `room/${room}/light/${light}/status`;
+const windowStatus      = (room, window)   => `room/${room}/window/${window}/status`;
 const temperatureStatus = (room, position) => `room/${room}/temperature/${position}/status`;
 const humidityStatus    = (room, position) => `room/${room}/humidity/${position}/status`;
 
