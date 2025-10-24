@@ -29,11 +29,12 @@ class MqttClient {
       ...data,
       since: new Date(),
     }), options);
+    this.logger.debug(`Published '${topic}'`, {data, options});
   }
 
   async subscribe(topic) {
     await this.client.subscribe(topic);
-    this.logger.debug(`Subscribed to ${topic}`);
+    this.logger.debug(`Subscribed to '${topic}'`);
   }
 }
 
@@ -66,13 +67,13 @@ const buttonClose       = (room, shutter)  => `room/${room}/button/${shutter}/cl
 const buttonActive      = (room, shutter)  => `room/${room}/button/${shutter}/active`;
 const buttonStatus      = (room, shutter)  => `room/${room}/button/${shutter}/status`;
 
-const heatingTemperature    = room  => `room/${room}/heating/temperature`;
-const heatingBoost          = room  => `room/${room}/heating/boost`;
+const heatingTemperature    = room  => `heating/${room}/temperature`;
+const heatingBoost          = room  => `heating/${room}/boost`;
 
-const heatingTrvSetTemperature     = (room, trv)  => `room/${room}/trv/${trv}/temperature/set`;
-const heatingTrvCurrentTemperature = (room, trv)  => `room/${room}/trv/${trv}/temperature/actual`;
-const heatingTrvSetValve           = (room, trv)  => `room/${room}/trv/${trv}/valve/set`;
-const heatingTrvCurrentValve       = (room, trv)  => `room/${room}/trv/${trv}/valve/actual`;
+const heatingTrvSetTemperature     = (room, trv)  => `heating/${room}/trv/${trv}/temperature/set`;
+const heatingTrvCurrentTemperature = (room, trv)  => `heating/${room}/trv/${trv}/temperature/actual`;
+const heatingTrvSetValve           = (room, trv)  => `heating/${room}/trv/${trv}/valve/set`;
+const heatingTrvCurrentValve       = (room, trv)  => `heating/${room}/trv/${trv}/valve/actual`;
 
 const automationInit = raspi => `automation/${raspi}/init`;
 
