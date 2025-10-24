@@ -64,6 +64,15 @@ const humidityStatus    = (room, position) => `room/${room}/humidity/${position}
 const buttonOpen        = (room, shutter)  => `room/${room}/button/${shutter}/open`;
 const buttonClose       = (room, shutter)  => `room/${room}/button/${shutter}/close`;
 const buttonActive      = (room, shutter)  => `room/${room}/button/${shutter}/active`;
+const buttonStatus      = (room, shutter)  => `room/${room}/button/${shutter}/status`;
+
+const heatingTemperature    = room  => `room/${room}/heating/temperature`;
+const heatingBoost          = room  => `room/${room}/heating/boost`;
+
+const heatingTrvSetTemperature     = (room, trv)  => `room/${room}/trv/${trv}/temperature/set`;
+const heatingTrvCurrentTemperature = (room, trv)  => `room/${room}/trv/${trv}/temperature/actual`;
+const heatingTrvSetValve           = (room, trv)  => `room/${room}/trv/${trv}/valve/set`;
+const heatingTrvCurrentValve       = (room, trv)  => `room/${room}/trv/${trv}/valve/actual`;
 
 const automationInit = raspi => `automation/${raspi}/init`;
 
@@ -79,6 +88,7 @@ const topics = {
   buttonOpen,
   buttonClose,
   buttonActive,
+  buttonStatus,
 
   fanControl,
   fanSpeed,
@@ -93,6 +103,13 @@ const topics = {
   
   temperatureStatus,
   humidityStatus,
+
+  heatingTemperature,
+  heatingBoost,
+  heatingTrvSetTemperature,
+  heatingTrvCurrentTemperature,
+  heatingTrvSetValve,
+  heatingTrvCurrentValve,
 
   automationInit,
 };
