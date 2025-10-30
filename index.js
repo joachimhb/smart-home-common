@@ -13,6 +13,8 @@ class MqttClient {
   async init(handleMessage) {
     this.client = await mqtt.connectAsync(this.url);
 
+    this.logger.info(`MQTTClient init with url ${this.url}`);
+
     this.client.on('message', async(topic, messageBuffer) => {
       try {
         const data = JSON.parse(messageBuffer.toString());
@@ -25,16 +27,21 @@ class MqttClient {
   }
 
   async publish(topic, data, options = {}) {
-    await this.client.publish(topic, JSON.stringify({
-      ...data,
+    const finalData = (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean' || Array.isArray(data)) ? {value: data} : data;
+
+    const res = await this.client.publish(topic, JSON.stringify({
+      ...finalData,
       since: new Date(),
     }), options);
-    this.logger.debug(`Published '${topic}'`, {data, options});
+
+    this.logger.trace(`Published '${topic}'`, {data, options});
+
+    return res;
   }
 
   async subscribe(topic) {
     await this.client.subscribe(topic);
-    this.logger.debug(`Subscribed to '${topic}'`);
+    this.logger.trace(`Subscribed to '${topic}'`);
   }
 }
 
@@ -67,13 +74,15 @@ const buttonClose       = (room, shutter)  => `room/${room}/button/${shutter}/cl
 const buttonActive      = (room, shutter)  => `room/${room}/button/${shutter}/active`;
 const buttonStatus      = (room, shutter)  => `room/${room}/button/${shutter}/status`;
 
-const heatingTemperature    = room  => `heating/${room}/temperature`;
-const heatingBoost          = room  => `heating/${room}/boost`;
+const roomTemperatureStatus = room  => `room/${room}/temperature/overall/status`;
 
-const heatingTrvSetTemperature     = (room, trv)  => `heating/${room}/trv/${trv}/temperature/set`;
-const heatingTrvCurrentTemperature = (room, trv)  => `heating/${room}/trv/${trv}/temperature/actual`;
-const heatingTrvSetValve           = (room, trv)  => `heating/${room}/trv/${trv}/valve/set`;
-const heatingTrvCurrentValve       = (room, trv)  => `heating/${room}/trv/${trv}/valve/actual`;
+const heatingSetTemperature = room  => `room/${room}/heating/overall/temperature_set`;
+const heatingTriggerBoost   = room  => `room/${room}/heating/overall/boost_trigger`;
+
+const heatingTrvSetTemperature     = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_set`;
+const heatingTrvCurrentTemperature = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_actual`;
+const heatingTrvSetValve           = (room, trv)  => `room/${room}/heating_trv/${trv}/valve_set`;
+const heatingTrvCurrentValve       = (room, trv)  => `room/${room}/heating_trv/${trv}/valve_actual`;
 
 const automationInit = raspi => `automation/${raspi}/init`;
 
@@ -85,7 +94,7 @@ const topics = {
   shutterStatus,
   shutterToggle,
   shutterMax,
-  
+
   buttonOpen,
   buttonClose,
   buttonActive,
@@ -101,12 +110,14 @@ const topics = {
 
   lightStatus,
   windowStatus,
-  
+
   temperatureStatus,
   humidityStatus,
 
-  heatingTemperature,
-  heatingBoost,
+  roomTemperatureStatus,
+
+  heatingSetTemperature,
+  heatingTriggerBoost,
   heatingTrvSetTemperature,
   heatingTrvCurrentTemperature,
   heatingTrvSetValve,
