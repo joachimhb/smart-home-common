@@ -41,7 +41,7 @@ class MqttClient {
 
   async subscribe(topic) {
     await this.client.subscribe(topic);
-    this.logger.trace(`Subscribed to '${topic}'`);
+    this.logger.debug(`Subscribed to '${topic}'`);
   }
 }
 
@@ -75,6 +75,7 @@ const buttonActive      = (room, shutter)  => `room/${room}/button/${shutter}/ac
 const buttonStatus      = (room, shutter)  => `room/${room}/button/${shutter}/status`;
 
 const roomTemperatureStatus = room  => `room/${room}/temperature/overall/status`;
+const roomHumidityStatus = room  => `room/${room}/humidity/overall/status`;
 
 const heatingSetTemperature = room  => `room/${room}/heating/overall/temperature_set`;
 const heatingTriggerBoost   = room  => `room/${room}/heating/overall/boost_trigger`;
@@ -83,6 +84,14 @@ const heatingTrvSetTemperature     = (room, trv)  => `room/${room}/heating_trv/$
 const heatingTrvCurrentTemperature = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_actual`;
 const heatingTrvSetValve           = (room, trv)  => `room/${room}/heating_trv/${trv}/valve_set`;
 const heatingTrvCurrentValve       = (room, trv)  => `room/${room}/heating_trv/${trv}/valve_actual`;
+
+// zigbee
+const zigbeeTuyaRoomthermostat = (room, id) => `zigbee2mqtt/${room}~tuya~roomthermostat~${id}`;
+const tuyaRoomthermostatInfo   = (room, id) => `room/${room}/tuya-roomthermostat/${id}/info`;
+
+const zigbeeSonoffHeatingthermostat    = (room, id) => `zigbee2mqtt/${room}~sonoff~heatingthermostat~${id}`;
+const zigbeeSonoffHeatingthermostatSet = (room, id) => `zigbee2mqtt/${room}~sonoff~heatingthermostat~${id}/set`;
+const sonoffHeatingthermostatInfo      = (room, id) => `room/${room}/sonoff-heatingthermostat/${id}/info`;
 
 const automationInit = raspi => `automation/${raspi}/init`;
 
@@ -115,6 +124,7 @@ const topics = {
   humidityStatus,
 
   roomTemperatureStatus,
+  roomHumidityStatus,
 
   heatingSetTemperature,
   heatingTriggerBoost,
@@ -124,6 +134,13 @@ const topics = {
   heatingTrvCurrentValve,
 
   automationInit,
+
+  zigbeeTuyaRoomthermostat,
+  tuyaRoomthermostatInfo,
+
+  zigbeeSonoffHeatingthermostat,
+  zigbeeSonoffHeatingthermostatSet,
+  sonoffHeatingthermostatInfo,
 };
 
 
