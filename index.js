@@ -21,22 +21,34 @@ class MqttClient {
 
         await handleMessage(topic, data);
       } catch(err) {
-        this.logger.error(`Failed to parse mqtt message for '${topic}': ${messageBuffer.toString()}`, err);
+        this.logger.error(`Failed to parse mqtt message for '${topic}' : '${messageBuffer.toString()}'`, err);
       }
     });
   }
 
   async publish(topic, data, options = {}) {
-    const finalData = (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean' || Array.isArray(data)) ? {value: data} : data;
+    let finalData = data;
 
-    const res = await this.client.publish(topic, JSON.stringify({
-      ...finalData,
-      since: new Date(),
-    }), options);
+    if(data === null || data === undefined) {
+      data = {};
+    }
 
-    this.logger.trace(`Published '${topic}'`, {data, options});
+    if(!topic.startsWith('zigbee2mqtt')) {
+      finalData = (typeof data === 'string' || typeof data === 'number' || typeof data === 'boolean' || Array.isArray(data)) ? {value: data} : data;
 
-    return res;
+      Object.assign(finalData, {since: new Date()});
+    }
+
+    try {
+      const res = await this.client.publish(topic, JSON.stringify(finalData), options);
+
+      this.logger.trace(`Published '${topic}'`, {data, options});
+
+      return res;
+    } catch(err) {
+      this.logger.warn(`Failed to published '${topic}'`, {data, options});
+    }
+
   }
 
   async subscribe(topic) {
@@ -75,27 +87,36 @@ const buttonActive      = (room, shutter)  => `room/${room}/button/${shutter}/ac
 const buttonStatus      = (room, shutter)  => `room/${room}/button/${shutter}/status`;
 
 const roomTemperatureStatus = room  => `room/${room}/temperature/overall/status`;
-const roomHumidityStatus = room  => `room/${room}/humidity/overall/status`;
+const roomHumidityStatus    = room  => `room/${room}/humidity/overall/status`;
 
 const heatingSetTemperature = room  => `room/${room}/heating/overall/temperature_set`;
 const heatingTriggerBoost   = room  => `room/${room}/heating/overall/boost_trigger`;
+const heatingSetMode        = room  => `room/${room}/heating/overall/mode`;
+const heatingBoost          = room  => `room/${room}/heating/overall/boost`;
 
-const heatingTrvSetTemperature     = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_set`;
-const heatingTrvCurrentTemperature = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_actual`;
-const heatingTrvSetValve           = (room, trv)  => `room/${room}/heating_trv/${trv}/valve_set`;
-const heatingTrvCurrentValve       = (room, trv)  => `room/${room}/heating_trv/${trv}/valve_actual`;
+const heatingTrvSetTemperature      = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_set`;
+const heatingTrvLocalTemperature    = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_local`;
+const heatingTrvExternalTemperature = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_external`;
+const heatingTrvBattery             = (room, trv)  => `room/${room}/heating_trv/${trv}/battery`;
+const heatingTrvLinkQuality         = (room, trv)  => `room/${room}/heating_trv/${trv}/linkquality`;
+const heatingTrvCurrentValve        = (room, trv)  => `room/${room}/heating_trv/${trv}/valve_actual`;
+
+const roomThermostatBattery     = (room, trv)  => `room/${room}/room_thermostat/${trv}/battery`;
+const roomThermostatLinkQuality = (room, trv)  => `room/${room}/room_thermostat/${trv}/linkquality`;
+
+const tuyaRoomthermostatInfo      = (room, id) => `room/${room}/tuya-roomthermostat/${id}/info`;
+const sonoffHeatingthermostatInfo = (room, id) => `room/${room}/sonoff-heatingthermostat/${id}/info`;
 
 // zigbee
-const zigbeeTuyaRoomthermostat = (room, id) => `zigbee2mqtt/${room}~tuya~roomthermostat~${id}`;
-const tuyaRoomthermostatInfo   = (room, id) => `room/${room}/tuya-roomthermostat/${id}/info`;
-
+const zigbeeTuyaRoomthermostat         = (room, id) => `zigbee2mqtt/${room}~tuya~roomthermostat~${id}`;
 const zigbeeSonoffHeatingthermostat    = (room, id) => `zigbee2mqtt/${room}~sonoff~heatingthermostat~${id}`;
 const zigbeeSonoffHeatingthermostatSet = (room, id) => `zigbee2mqtt/${room}~sonoff~heatingthermostat~${id}/set`;
-const sonoffHeatingthermostatInfo      = (room, id) => `room/${room}/sonoff-heatingthermostat/${id}/info`;
 
 const automationInit = raspi => `automation/${raspi}/init`;
 
 const topics = {
+  automationInit,
+
   shutterUp,
   shutterDown,
   shutterStop,
@@ -128,19 +149,24 @@ const topics = {
 
   heatingSetTemperature,
   heatingTriggerBoost,
-  heatingTrvSetTemperature,
-  heatingTrvCurrentTemperature,
-  heatingTrvSetValve,
-  heatingTrvCurrentValve,
+  heatingSetMode,
+  heatingBoost,
 
-  automationInit,
+  heatingTrvSetTemperature,
+  heatingTrvLocalTemperature,
+  heatingTrvExternalTemperature,
+  heatingTrvBattery,
+  heatingTrvLinkQuality,
+  heatingTrvCurrentValve,
+  roomThermostatBattery,
+  roomThermostatLinkQuality,
+
+  tuyaRoomthermostatInfo,
+  sonoffHeatingthermostatInfo,
 
   zigbeeTuyaRoomthermostat,
-  tuyaRoomthermostatInfo,
-
   zigbeeSonoffHeatingthermostat,
   zigbeeSonoffHeatingthermostatSet,
-  sonoffHeatingthermostatInfo,
 };
 
 
