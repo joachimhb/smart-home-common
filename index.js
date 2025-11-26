@@ -99,6 +99,8 @@ const heatingTrvLocalTemperature    = (room, trv)  => `room/${room}/heating_trv/
 const heatingTrvExternalTemperature = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_external`;
 const heatingTrvBattery             = (room, trv)  => `room/${room}/heating_trv/${trv}/battery`;
 const heatingTrvLinkQuality         = (room, trv)  => `room/${room}/heating_trv/${trv}/linkquality`;
+const heatingTrvState               = (room, trv)  => `room/${room}/heating_trv/${trv}/state`;
+const heatingTrvMode                = (room, trv)  => `room/${room}/heating_trv/${trv}/mode`;
 const heatingTrvCurrentValve        = (room, trv)  => `room/${room}/heating_trv/${trv}/valve_actual`;
 
 const roomThermostatBattery     = (room, trv)  => `room/${room}/room_thermostat/${trv}/battery`;
@@ -158,6 +160,8 @@ const topics = {
   heatingTrvBattery,
   heatingTrvLinkQuality,
   heatingTrvCurrentValve,
+  heatingTrvState,
+  heatingTrvMode,
   roomThermostatBattery,
   roomThermostatLinkQuality,
 
