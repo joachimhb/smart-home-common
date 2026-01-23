@@ -174,7 +174,7 @@ const topics = {
   zigbeeSonoffHeatingthermostat,
   zigbeeSonoffHeatingthermostatSet,
 
-  zigbeeSonoffLightSwitch,
+  zigbeeSonoffSwitch,
 
   zigbeeTuyaSceneSwitch,
 };
