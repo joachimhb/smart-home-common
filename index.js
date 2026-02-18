@@ -91,8 +91,10 @@ const roomHumidityStatus    = room  => `room/${room}/humidity/overall/status`;
 
 const heatingSetTemperature = room  => `room/${room}/heating/overall/temperature_set`;
 const heatingTriggerBoost   = room  => `room/${room}/heating/overall/boost_trigger`;
+const heatingTriggerPause   = room  => `room/${room}/heating/overall/pause_trigger`;
 const heatingSetMode        = room  => `room/${room}/heating/overall/mode`;
 const heatingBoost          = room  => `room/${room}/heating/overall/boost`;
+const heatingPause          = room  => `room/${room}/heating/overall/pause`;
 
 const heatingTrvSetTemperature      = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_set`;
 const heatingTrvLocalTemperature    = (room, trv)  => `room/${room}/heating_trv/${trv}/temperature_local`;
@@ -154,8 +156,10 @@ const topics = {
 
   heatingSetTemperature,
   heatingTriggerBoost,
+  heatingTriggerPause,
   heatingSetMode,
   heatingBoost,
+  heatingPause,
 
   heatingTrvSetTemperature,
   heatingTrvLocalTemperature,
