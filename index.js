@@ -118,6 +118,8 @@ const zigbeeSonoffHeatingthermostatSet = (room, id) => `zigbee2mqtt/${room}~sono
 const zigbeeTuyaSceneSwitch            = (room, id) => `zigbee2mqtt/${room}~tuya~sceneswitch~${id}`;
 const zigbeeSonoffSwitch               = (room, id) => `zigbee2mqtt/${room}~sonoff~switch~${id}`;
 const zigbeeSonoffSwitchSet            = (room, id) => `zigbee2mqtt/${room}~sonoff~switch~${id}/set`;
+const zigbeeSonoffShutter              = (room, id) => `zigbee2mqtt/${room}~sonoff~shutter~${id}`;
+const zigbeeSonoffShutterSet           = (room, id) => `zigbee2mqtt/${room}~sonoff~shutter~${id}/set`;
 
 const automationInit = raspi => `automation/${raspi}/init`;
 
@@ -183,6 +185,9 @@ const topics = {
 
   zigbeeTuyaSceneSwitch,
   zigbeeSonoffSwitchSet,
+
+  zigbeeSonoffShutter,
+  zigbeeSonoffShutterSet,
 };
 
 
