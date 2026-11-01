@@ -120,6 +120,7 @@ const zigbeeSonoffSwitch               = (room, id) => `zigbee2mqtt/${room}~sono
 const zigbeeSonoffSwitchSet            = (room, id) => `zigbee2mqtt/${room}~sonoff~switch~${id}/set`;
 const zigbeeSonoffShutter              = (room, id) => `zigbee2mqtt/${room}~sonoff~shutter~${id}`;
 const zigbeeSonoffShutterSet           = (room, id) => `zigbee2mqtt/${room}~sonoff~shutter~${id}/set`;
+const zigbeeSonoffWindowSensor         = (room, id) => `zigbee2mqtt/${room}~sonoff~windowsensor~${id}`;
 
 const automationInit = raspi => `automation/${raspi}/init`;
 
@@ -188,6 +189,8 @@ const topics = {
 
   zigbeeSonoffShutter,
   zigbeeSonoffShutterSet,
+
+  zigbeeSonoffWindowSensor,
 };
 
 
